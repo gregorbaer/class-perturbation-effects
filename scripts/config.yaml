@@ -1,0 +1,55 @@
+# Where to save the results
+paths:
+  models_dir: results/models
+  perturbations_dir: results/perturbation_results
+
+# Which datasets to use (from UCR archive)
+datasets:
+  - Wafer
+  - FordA
+  - FordB
+  - ElectricDevices
+
+models:
+  - ResNet
+  - InceptionTime
+
+# Model training configs for train_models.py
+train_models:
+  model_config:
+    epochs: 500
+    patience: 25
+    learning_rate: 0.0003
+    weight_decay: 0.001
+    deterministic: True
+    show_progress: True
+    save_model: True
+    enable_early_stopping: True
+  batch_size: 256
+  val_split: 0.2
+  seed: 42
+  save_logs: True # whether to save logging messages to file
+
+# Perturbation configs for perturbations.py
+# Results are used to demonstate class-dependent perturbations effects
+perturbation_experiments:
+  n_attributions_per_class: 300
+  features_per_step_ratio: 0.02 # Ratio of time series length for each step
+  max_perturbation_ratio: 0.5 # Maximum ratio of features to perturb
+  attribution_methods:
+    - "GRAD"
+    - "IG"
+    - "SG"
+    - "GS"
+    - "FO"
+  label_to_explain: predicted
+  perturbation_strategies:
+    - gaussian_noise
+    - uniform_noise
+    - opposite
+    - subsequence_mean
+    - inverse
+  perturbation_constants: [-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2]
+  seed: 42
+  save_logs: True # whether to save logging messages to file
+

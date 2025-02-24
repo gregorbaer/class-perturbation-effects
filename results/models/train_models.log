@@ -1,0 +1,49 @@
+2025-01-22 15:43:13.929 |     INFO |    train_models | Starting training pipeline with device: cuda
+2025-01-22 15:43:13.930 |     INFO |    train_models | Model configuration: {'epochs': 500, 'patience': 25, 'learning_rate': 0.0003, 'weight_decay': 0.001, 'deterministic': True, 'show_progress': True, 'save_model': True, 'enable_early_stopping': True, 'model_dir': '/home/gbaer/code/xai-ts-rashomon/results/models'}
+2025-01-22 15:43:13.930 |     INFO |    train_models | Datasets to process: ['Wafer', 'FordA', 'FordB', 'ElectricDevices']
+2025-01-22 15:43:13.956 |     INFO |    train_models | Initialized models with input channels: 1, output classes: 2
+2025-01-22 15:43:20.858 |     INFO |    train_models | Evaluating model on train, validation and test set.
+2025-01-22 15:43:21.178 |     INFO |    train_models | Results for ResNet on Wafer:
+Train - Accuracy: 1.0000, F1: 1.0000
+Val   - Accuracy: 1.0000, F1: 1.0000
+Test  - Accuracy: 0.9925, F1: 0.9924
+2025-01-22 15:43:28.231 |     INFO |    train_models | Evaluating model on train, validation and test set.
+2025-01-22 15:43:28.505 |     INFO |    train_models | Results for InceptionTime on Wafer:
+Train - Accuracy: 1.0000, F1: 1.0000
+Val   - Accuracy: 1.0000, F1: 1.0000
+Test  - Accuracy: 0.9982, F1: 0.9982
+2025-01-22 15:43:28.536 |     INFO |    train_models | Initialized models with input channels: 1, output classes: 2
+2025-01-22 15:43:45.864 |     INFO |    train_models | Evaluating model on train, validation and test set.
+2025-01-22 15:43:46.225 |     INFO |    train_models | Results for ResNet on FordA:
+Train - Accuracy: 0.9990, F1: 0.9990
+Val   - Accuracy: 0.9307, F1: 0.9306
+Test  - Accuracy: 0.9371, F1: 0.9371
+2025-01-22 15:44:13.384 |     INFO |    train_models | Evaluating model on train, validation and test set.
+2025-01-22 15:44:13.821 |     INFO |    train_models | Results for InceptionTime on FordA:
+Train - Accuracy: 1.0000, F1: 1.0000
+Val   - Accuracy: 0.9445, F1: 0.9445
+Test  - Accuracy: 0.9523, F1: 0.9523
+2025-01-22 15:44:13.852 |     INFO |    train_models | Initialized models with input channels: 1, output classes: 2
+2025-01-22 15:44:36.537 |     INFO |    train_models | Evaluating model on train, validation and test set.
+2025-01-22 15:44:36.835 |     INFO |    train_models | Results for ResNet on FordB:
+Train - Accuracy: 1.0000, F1: 1.0000
+Val   - Accuracy: 0.9299, F1: 0.9299
+Test  - Accuracy: 0.8037, F1: 0.8037
+2025-01-22 15:44:52.755 |     INFO |    train_models | Evaluating model on train, validation and test set.
+2025-01-22 15:44:53.145 |     INFO |    train_models | Results for InceptionTime on FordB:
+Train - Accuracy: 0.9966, F1: 0.9966
+Val   - Accuracy: 0.9382, F1: 0.9381
+Test  - Accuracy: 0.8494, F1: 0.8493
+2025-01-22 15:44:53.180 |     INFO |    train_models | Initialized models with input channels: 1, output classes: 7
+2025-01-22 15:45:22.266 |     INFO |    train_models | Evaluating model on train, validation and test set.
+2025-01-22 15:45:22.634 |     INFO |    train_models | Results for ResNet on ElectricDevices:
+Train - Accuracy: 0.9807, F1: 0.9808
+Val   - Accuracy: 0.9127, F1: 0.9127
+Test  - Accuracy: 0.7157, F1: 0.7005
+2025-01-22 15:45:58.518 |     INFO |    train_models | Evaluating model on train, validation and test set.
+2025-01-22 15:45:58.950 |     INFO |    train_models | Results for InceptionTime on ElectricDevices:
+Train - Accuracy: 0.9874, F1: 0.9875
+Val   - Accuracy: 0.8953, F1: 0.8956
+Test  - Accuracy: 0.7024, F1: 0.6894
+2025-01-22 15:45:58.951 |     INFO |    train_models | Training pipeline completed. Saving results...
+2025-01-22 15:45:58.953 |     INFO |    train_models | Results saved to file: model_performance.csv
