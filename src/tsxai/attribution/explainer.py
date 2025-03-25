@@ -91,7 +91,7 @@ class ExplanationResult:
         plot_size: Tuple[int, int] = (800, 350),
         hm_theme: str = "inferno",
         ts_color: str = "white",
-        ts_size: int = 1,
+        ts_size: int = 2,
         y_lim: Optional[Tuple[float, float]] = None,
         scale_fill_limits: Optional[Tuple[float, float]] = None,
     ) -> ggplot:
