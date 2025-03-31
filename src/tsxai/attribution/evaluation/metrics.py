@@ -24,6 +24,7 @@ from lets_plot import (
 from tqdm import tqdm
 
 from tsxai.attribution.evaluation.perturbation import PERTURBATION_FUNCTIONS
+from tsxai.visualization.utils import ScientificPalette
 
 # Valid AUC type literals
 AUCType = Literal["MoRF", "LeRF"]
@@ -275,6 +276,7 @@ def plot_perturbation_analysis_curves(
     results: PerturbationResult,
     perturbation_ratio: float,
     title: str = "Perturbation Analysis Curves",
+    line_size: float = 2.5,
     plot_size: tuple = (800, 500),
     include_ds: bool = True,
     include_dds: bool = True,
@@ -286,6 +288,7 @@ def plot_perturbation_analysis_curves(
         results: Perturbation analysis results
         perturbation_ratio: Ratio of features perturbed (0.0 to 1.0)
         title: Title for the plot
+        line_size: Line size for curves
         plot_size: Plot size (width, height) in pixels
         include_ds: Whether to include DS score in subtitle
         include_dds: Whether to include DDS scores in subtitle
@@ -364,10 +367,6 @@ def plot_perturbation_analysis_curves(
 
     subtitle = " | ".join(score_parts) if score_parts else None
 
-    NATURE_BINARY = [
-        "#006699",  # Nature Blue
-        "#DC2830",  # Nature Red
-    ]
     # Get curve types in consistent order
     available_curves = list(results.scores.keys())
     curve_types = []
@@ -377,8 +376,7 @@ def plot_perturbation_analysis_curves(
         curve_types.append("LeRF")
 
     # Create color mappings that align with curve types
-    colors = {curve_type: NATURE_BINARY[i] for i, curve_type in enumerate(curve_types)}
-    color_values = [colors[curve_type] for curve_type in curve_types]
+    color_values = ScientificPalette.get_palette(len(curve_types))
 
     # Modify x-axis scale based on perturbation ratio
     max_pct = 100 * perturbation_ratio
@@ -417,10 +415,10 @@ def plot_perturbation_analysis_curves(
         + geom_line(
             data=data,
             mapping=aes(x="perturbed_pct", y="score", color="type"),
-            size=1.25,
+            size=line_size,
         )
         + scale_x_continuous(
-            name="Percentage of Features Perturbed (%)", breaks=list(x_breaks)
+            name="Percentage of Perturbed Features (%)", breaks=list(x_breaks)
         )
         + scale_y_continuous(
             name="Target Class Probability", limits=[0, data["score"].max() * 1.05]

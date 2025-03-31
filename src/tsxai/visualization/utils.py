@@ -57,87 +57,188 @@ def get_plot_dimensions(
 class ScientificPalette:
     """Collection of optimized color palettes for scientific visualization.
 
-    This class provides three distinct color palettes optimized for different
-    visualization needs:
-    - A two-color palette ideal for binary comparisons
-    - A five-color palette for small-scale comparisons (2-5 items)
-    - A ten-color palette for larger-scale comparisons (6-10 items)
-
-    Each palette is carefully selected to ensure color distinctiveness and
-    visual clarity in scientific publications.
-
-    Example:
-        Create palettes of different sizes:
-        >>> # Binary comparison (2 colors)
-        >>> binary_palette = ScientificPalette.get_palette(2)
-        >>>
-        >>> # Small comparison (4 categories)
-        >>> small_palette = ScientificPalette.get_palette(4)
-        >>>
-        >>> # Large comparison (8 categories)
-        >>> large_palette = ScientificPalette.get_palette(8)
+    Palettes were selected and pre-defined to be color-blind safe.
+    Okabe-Ito palette retrieved from: https://jfly.uni-koeln.de/color/#pallet.
+    Paul Tol palettes retrieved from: https://sronpersonalpages.nl/~pault.
     """
 
-    # Two distinct colors, optimized for binary comparisons
-    TWO_COLOR_PALETTE = [
-        "#006699",  # Nature Blue - Used in Nature journal
-        "#DC2830",  # Nature Red - Used in Nature journal
+    # Okabe-Ito Blue, Orange, Red
+    OKABE_ITO_PALETTE = [
+        "#0072B2",  # blue
+        "#E69F00",  # orange
+        "#009E73",  # bluish green
+        "#D55E00",  # vermillion
+        "#56B4E9",  # sky blue
+        "#CC79A7",  # reddish purple
+        "#000000",  # black
+        "#F0E442",  # yellow
     ]
-
-    # Five distinct colors, optimized for small comparisons
-    FIVE_COLOR_PALETTE = [
-        "#E69F00",  # Orange - High visibility
-        "#56B4E9",  # Light blue - Cool tone
-        "#009E73",  # Green - Mid tone
-        "#CC79A7",  # Pink/Rose - Warm tone
-        "#0072B2",  # Dark blue - Strong accent
+    PAUL_TOL_BRIGHT = [
+        "#4477AA",
+        "#EE6677",
+        "#228833",
+        "#CCBB44",
+        "#66CCEE",
+        "#AA3377",
+        "#BBBBBB",
     ]
-
-    # Ten distinct colors, optimized for larger comparisons
-    TEN_COLOR_PALETTE = [
-        "#4C72B0",  # Strong blue - Primary emphasis
-        "#55A868",  # Sage green - Natural tone
-        "#C44E52",  # Muted red - Warm contrast
-        "#8172B3",  # Muted purple - Cool accent
-        "#CCB974",  # Light brown - Neutral tone
-        "#64B5CD",  # Light blue - Soft accent
-        "#666666",  # Dark gray - Neutral contrast
-        "#B47846",  # Earth brown - Warm neutral
-        "#8C8C8C",  # Medium gray - Mid neutral
-        "#6B8E23",  # Olive green - Natural accent
+    PAUL_TOL_VIBRANT = [
+        "#EE7733",
+        "#0077BB",
+        "#33BBEE",
+        "#EE3377",
+        "#CC3311",
+        "#009988",
+        "#BBBBBB",
     ]
+    PAUL_TOL_HIGH_CONTRAST = ["#004488", "#DDAA33", "#BB5566"]
 
     @classmethod
-    def get_palette(cls, num_colors: int) -> List[str]:
-        """Get an appropriate color palette based on the required number of colors.
-
-        Automatically selects the most appropriate palette based on the number of
-        colors requested:
-        - For num_colors=2: Returns the binary comparison palette
-        - For num_colors≤5: Returns colors from the small-scale palette
-        - For num_colors≤10: Returns colors from the large-scale palette
+    def get_palette(
+        cls, n_colors: int = None, palette_name: str = "okabe-ito"
+    ) -> List[str]:
+        """Retrieve color palette with first n_colors.
 
         Args:
-            num_colors: Number of distinct colors needed (must be between 1 and 10)
+            n_colors: Number of colors to return. If None, returns the full palette.
+            palette_name: Name of the palette to use.
+                One of 'okabe-ito', 'pt-bright', 'pt-vibrant', 'pt-high-contrast'.
+                These palettes were selected
 
         Returns:
-            List of hex color codes optimized for the requested number of colors
-
-        Raises:
-            ValueError: If num_colors is not between 1 and 10
-
-        Example:
-            >>> # Get 4 colors for comparing different categories
-            >>> colors = ScientificPalette.get_palette(4)
-            >>> print(colors)  # Returns first 4 colors from FIVE_COLOR_PALETTE
-            ['#E69F00', '#56B4E9', '#009E73', '#CC79A7']
+            List of hex color codes from the requested palette.
         """
-        if not 1 <= num_colors <= 10:
-            raise ValueError("Number of colors must be between 1 and 10")
-
-        if num_colors <= 2:
-            return cls.TWO_COLOR_PALETTE
-        elif num_colors <= 5:
-            return cls.FIVE_COLOR_PALETTE[:num_colors]
+        if palette_name == "okabe-ito":
+            pallete = cls.OKABE_ITO_PALETTE
+        elif palette_name == "pt-bright":
+            pallete = cls.PAUL_TOL_BRIGHT
+        elif palette_name == "pt-vibrant":
+            pallete = cls.PAUL_TOL_VIBRANT
+        elif palette_name == "pt-high-contrast":
+            pallete = cls.PAUL_TOL_HIGH_CONTRAST
         else:
-            return cls.TEN_COLOR_PALETTE[:num_colors]
+            raise ValueError("Palette name not recognized.")
+
+        assert len(pallete) >= n_colors, "Palette does not have enough colors"
+
+        if n_colors is None:
+            return pallete
+        else:
+            return pallete[:n_colors]
+
+
+def theme_paper(
+    legend_position=None,
+    legend_key_height=None,
+    legend_key_width=None,
+    font_family="Helvetica",
+    base_size=8,
+    scale=2.0,
+):
+    """Create a theme for academic paper plots.
+
+    This theme is optimized for academic papers and works well with the
+    get_plot_dimensions function, especially when scale=2.0 is used.
+
+    Args:
+        legend_position (str): Position of the legend ('none', 'right', 'bottom', 'left', 'top').
+            Defaults to None as many paper figures include separate legends.
+        legend_key_height (float): Height of legend keys.
+        legend_key_width (float): Width of legend keys.
+        font_family (str): Font family to use for all text elements.
+            Defaults to "Helvetica" which is good for academic papers.
+            Other options include "Times New Roman", "Palatino", or "Computer Modern".
+        base_size (float): Base font size in points. Defaults to 8.
+        scale (float): Scaling factor to match the plot dimensions.
+            Should match the scale parameter used in get_plot_dimensions.
+
+    Returns:
+        lets_plot.theme: A theme object suitable for academic papers.
+    """
+    from lets_plot import element_text, theme
+
+    # Adjust text sizes based on scale
+    title_size = base_size * 1.4 * scale
+    subtitle_size = base_size * 1.2 * scale
+    axis_title_size = base_size * 1.1 * scale
+    axis_text_size = base_size * scale
+    legend_title_size = base_size * 1.1 * scale
+    legend_text_size = base_size * scale
+    strip_text_size = base_size * 1.1 * scale  # For facet titles
+
+    return theme(
+        # Title and subtitle
+        plot_title=element_text(family=font_family, size=title_size),
+        plot_subtitle=element_text(family=font_family, size=subtitle_size),
+        # Axis titles
+        axis_title=element_text(family=font_family, size=axis_title_size),
+        # Axis text (tick labels)
+        axis_text=element_text(family=font_family, size=axis_text_size),
+        # Legend
+        legend_title=element_text(family=font_family, size=legend_title_size),
+        legend_text=element_text(family=font_family, size=legend_text_size),
+        # Facet titles
+        strip_text=element_text(family=font_family, size=strip_text_size),
+        # Additional styling for papers
+        legend_position=legend_position,
+        legend_key_height=legend_key_height,
+        legend_key_width=legend_key_width,
+    )
+
+
+def theme_presentation(
+    legend_position=None,
+    legend_key_height=None,
+    legend_key_width=None,
+    font_family="Helvetica",
+    base_size=12,
+    scale=2.0,
+):
+    """Create a theme for presentation plots.
+
+    This theme is optimized for slides and presentations and works well
+    with the get_plot_dimensions function when used with ppt output types.
+
+    Args:
+        legend_position (str): Position of the legend ('none', 'right', 'bottom', 'left', 'top').
+            Defaults to None as many presentations include separate legend annotations.
+        legend_key_height (float): Height of legend keys.
+        legend_key_width (float): Width of legend keys.
+        font_family (str): Font family to use for all text elements.
+            Defaults to "Arial" which is good for presentations.
+        base_size (float): Base font size in points. Defaults to 12.
+        scale (float): Scaling factor to match the plot dimensions.
+            Should match the scale parameter used in get_plot_dimensions.
+
+    Returns:
+        lets_plot.theme: A theme object suitable for presentations.
+    """
+    from lets_plot import element_text, theme
+
+    # Adjust text sizes based on scale
+    title_size = base_size * 1.5 * scale  # Larger title for presentations
+    subtitle_size = base_size * 1.3 * scale
+    axis_title_size = base_size * 1.2 * scale
+    axis_text_size = base_size * scale
+    legend_title_size = base_size * 1.2 * scale
+    legend_text_size = base_size * scale
+    strip_text_size = base_size * 1.2 * scale  # For facet titles
+
+    return theme(
+        # Title and subtitle
+        plot_title=element_text(family=font_family, size=title_size),
+        plot_subtitle=element_text(family=font_family, size=subtitle_size),
+        # Axis titles
+        axis_title=element_text(family=font_family, size=axis_title_size),
+        # Axis text (tick labels)
+        axis_text=element_text(family=font_family, size=axis_text_size),
+        # Legend
+        legend_title=element_text(family=font_family, size=legend_title_size),
+        legend_text=element_text(family=font_family, size=legend_text_size),
+        # Facet titles
+        strip_text=element_text(family=font_family, size=strip_text_size),
+        # Additional styling for presentations
+        legend_position=legend_position,
+        legend_key_height=legend_key_height,
+        legend_key_width=legend_key_width,
+    )
