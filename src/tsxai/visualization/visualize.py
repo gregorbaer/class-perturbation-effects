@@ -30,7 +30,6 @@ from lets_plot import (
     scale_x_discrete,
     scale_y_continuous,
     theme,
-    theme_light,
     theme_minimal,
     theme_minimal2,
     xlab,
@@ -69,9 +68,11 @@ def sample_ts_per_class(
 def vis_time_series_classification_samples(
     df: pd.DataFrame,
     n_samples_per_label: int = 5,
+    linesize: int = 1,
     alpha: float = 0.8,
     n_col: int = 1,
     random_state: int = None,
+    title: str = None,
 ) -> ggplot:
     """
     Visualize a sample of n time series per class label from the given DataFrame.
@@ -79,6 +80,11 @@ def vis_time_series_classification_samples(
     Parameters:
     - df: pd.DataFrame with columns ['unique_id', 'ds', 'y', 'label']
     - n_samples_per_label: int, number of samples to visualize
+    - linesize: int, size of the lines
+    - alpha: float, transparency level for the lines
+    - n_col: int, number of columns for facet wrap
+    - random_state: int, random seed for sampling
+    - title: str, plot title
     """
     df_sampled = sample_ts_per_class(df, n_samples_per_label, random_state)
 
@@ -101,17 +107,18 @@ def vis_time_series_classification_samples(
     colors = ScientificPalette.get_palette(df_sampled["color_id"].nunique())
 
     # Plot the time series data
+    title_str = (
+        f"Sampled Time Series Per Class (N={n_samples_per_label})"
+        if title is None
+        else title
+    )
     p = (
         ggplot(df_sampled, aes("ds", "y", group="unique_id", color="color_id"))
-        + geom_line(size=1, alpha=alpha, tooltips=tooltip)
+        + geom_line(size=linesize, alpha=alpha, tooltips=tooltip)
         + facet_wrap("label_text", ncol=n_col, scales="free_y")
         + scale_color_manual(values=colors)
-        + labs(
-            x="ds",
-            y="y",
-            title=f"Sampled Time Series Per Class (N={n_samples_per_label})",
-        )
-        + theme_light()
+        + labs(x="ds", y="y", title=title_str)
+        + theme_minimal2()
         + theme(legend_position="none")
         + labs(x="Time Stamp", y="Value")
     )
@@ -465,7 +472,7 @@ def plot_metric_distributions(
         + theme_minimal2()
         + geom_hline(yintercept=0, linetype="dashed", alpha=0.7)
         + theme(
-            legend_position=[0, 1],
+            legend_position=[0.015, 1],
             legend_justification=[0, 1],
             legend_direction="horizontal",
             legend_background=element_rect(color="grey", size=0.1),
@@ -623,7 +630,7 @@ def plot_parallel_coords(
         )
         + theme_minimal2()
         + theme(
-            legend_position=[0, 1],
+            legend_position=[0.015, 1],
             legend_justification=[0, 1],
             legend_direction="horizontal",
             legend_background=element_rect(color="grey", size=0.1),

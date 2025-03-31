@@ -125,3 +125,120 @@ class ScientificPalette:
             return pallete
         else:
             return pallete[:n_colors]
+
+
+def theme_paper(
+    legend_position=None,
+    legend_key_height=None,
+    legend_key_width=None,
+    font_family="Helvetica",
+    base_size=8,
+    scale=2.0,
+):
+    """Create a theme for academic paper plots.
+
+    This theme is optimized for academic papers and works well with the
+    get_plot_dimensions function, especially when scale=2.0 is used.
+
+    Args:
+        legend_position (str): Position of the legend ('none', 'right', 'bottom', 'left', 'top').
+            Defaults to None as many paper figures include separate legends.
+        legend_key_height (float): Height of legend keys.
+        legend_key_width (float): Width of legend keys.
+        font_family (str): Font family to use for all text elements.
+            Defaults to "Helvetica" which is good for academic papers.
+            Other options include "Times New Roman", "Palatino", or "Computer Modern".
+        base_size (float): Base font size in points. Defaults to 8.
+        scale (float): Scaling factor to match the plot dimensions.
+            Should match the scale parameter used in get_plot_dimensions.
+
+    Returns:
+        lets_plot.theme: A theme object suitable for academic papers.
+    """
+    from lets_plot import element_text, theme
+
+    # Adjust text sizes based on scale
+    title_size = base_size * 1.4 * scale
+    subtitle_size = base_size * 1.2 * scale
+    axis_title_size = base_size * 1.1 * scale
+    axis_text_size = base_size * scale
+    legend_title_size = base_size * 1.1 * scale
+    legend_text_size = base_size * scale
+    strip_text_size = base_size * 1.1 * scale  # For facet titles
+
+    return theme(
+        # Title and subtitle
+        plot_title=element_text(family=font_family, size=title_size),
+        plot_subtitle=element_text(family=font_family, size=subtitle_size),
+        # Axis titles
+        axis_title=element_text(family=font_family, size=axis_title_size),
+        # Axis text (tick labels)
+        axis_text=element_text(family=font_family, size=axis_text_size),
+        # Legend
+        legend_title=element_text(family=font_family, size=legend_title_size),
+        legend_text=element_text(family=font_family, size=legend_text_size),
+        # Facet titles
+        strip_text=element_text(family=font_family, size=strip_text_size),
+        # Additional styling for papers
+        legend_position=legend_position,
+        legend_key_height=legend_key_height,
+        legend_key_width=legend_key_width,
+    )
+
+
+def theme_presentation(
+    legend_position=None,
+    legend_key_height=None,
+    legend_key_width=None,
+    font_family="Helvetica",
+    base_size=12,
+    scale=2.0,
+):
+    """Create a theme for presentation plots.
+
+    This theme is optimized for slides and presentations and works well
+    with the get_plot_dimensions function when used with ppt output types.
+
+    Args:
+        legend_position (str): Position of the legend ('none', 'right', 'bottom', 'left', 'top').
+            Defaults to None as many presentations include separate legend annotations.
+        legend_key_height (float): Height of legend keys.
+        legend_key_width (float): Width of legend keys.
+        font_family (str): Font family to use for all text elements.
+            Defaults to "Arial" which is good for presentations.
+        base_size (float): Base font size in points. Defaults to 12.
+        scale (float): Scaling factor to match the plot dimensions.
+            Should match the scale parameter used in get_plot_dimensions.
+
+    Returns:
+        lets_plot.theme: A theme object suitable for presentations.
+    """
+    from lets_plot import element_text, theme
+
+    # Adjust text sizes based on scale
+    title_size = base_size * 1.5 * scale  # Larger title for presentations
+    subtitle_size = base_size * 1.3 * scale
+    axis_title_size = base_size * 1.2 * scale
+    axis_text_size = base_size * scale
+    legend_title_size = base_size * 1.2 * scale
+    legend_text_size = base_size * scale
+    strip_text_size = base_size * 1.2 * scale  # For facet titles
+
+    return theme(
+        # Title and subtitle
+        plot_title=element_text(family=font_family, size=title_size),
+        plot_subtitle=element_text(family=font_family, size=subtitle_size),
+        # Axis titles
+        axis_title=element_text(family=font_family, size=axis_title_size),
+        # Axis text (tick labels)
+        axis_text=element_text(family=font_family, size=axis_text_size),
+        # Legend
+        legend_title=element_text(family=font_family, size=legend_title_size),
+        legend_text=element_text(family=font_family, size=legend_text_size),
+        # Facet titles
+        strip_text=element_text(family=font_family, size=strip_text_size),
+        # Additional styling for presentations
+        legend_position=legend_position,
+        legend_key_height=legend_key_height,
+        legend_key_width=legend_key_width,
+    )

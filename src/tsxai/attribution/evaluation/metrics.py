@@ -418,7 +418,7 @@ def plot_perturbation_analysis_curves(
             size=line_size,
         )
         + scale_x_continuous(
-            name="Percentage of Features Perturbed (%)", breaks=list(x_breaks)
+            name="Percentage of Perturbed Features (%)", breaks=list(x_breaks)
         )
         + scale_y_continuous(
             name="Target Class Probability", limits=[0, data["score"].max() * 1.05]
