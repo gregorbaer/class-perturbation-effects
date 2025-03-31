@@ -2,7 +2,10 @@
 
 This repository contains the code and experiment results for our paper:
 ```
-Baer, G., Grau, I., Zhang, C., & Van Gorp, P. (2025). Class-dependent perturbation effects in evaluating time series attributions. arXiv. https://arxiv.org/abs/2502.17022
+Baer, G., Grau, I., Zhang, C., & Van Gorp, P. (2025). 
+Class-Dependent Perturbation Effects in Evaluating Time Series Attributions.
+Accepted at The World Conference on eXplainable Artificial Intelligence (XAI-2025).
+Preprint available at: https://arxiv.org/abs/2502.17022
 ```
 
 ## Quick Start (Local Installation)
